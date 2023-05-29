@@ -1,0 +1,14 @@
+<html>
+ <head>
+  <title>Docker Container App</title>
+   <style>body {margin-top: 40px; background-color: #87CEEB; background-image: url("docker_logo.png");}
+   </style>
+ </head>
+ <body>
+  <div style=color:black;text-align:center>
+   <h1> Docker Container Sample Application. </h1>
+   <h2> "fastcampus" </h2>
+    <p>Your application is now running on a container in Docker Container.</p>
+  </div>
+ </body>
+</html>
