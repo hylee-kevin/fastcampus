@@ -36,3 +36,18 @@ CMD ["node", "runapp.js"]
 ~devteam_js$ docker run -itd -p 6060:6060 --name=nodejs -h node-run noderun:1.0
 ~devteam_js$ curl localhost:6060
 HostName: node-run
+
+kevin@hostos1:~/fastcampus/ch05$ docker run \
+--restart=always \
+--volume=/:/rootfs:ro \
+--volume=/var/run:/var/run:rw \
+--volume=/sys/fs/cgroup:/sys/fs/cgroup:ro \
+--volume=/var/lib/docker/:/var/lib/docker:ro \
+--volume=/dev/disk/:/dev/disk:ro \
+--publish=9559:8080 \
+--detach=true \
+--name=cadvisor \
+--privileged \
+--device=/dev/kmsg \
+gcr.io/cadvisor/cadvisor:latest
+
