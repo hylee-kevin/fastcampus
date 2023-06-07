@@ -1,1 +1,38 @@
 # ch05
+
+~$ mkdir devteam_js && cd $_
+~devteam_js$ vi runapp.js	  # 테스트 요청한 node.js script
+const http = require('http');
+
+const server = http.createServer().listen(6060);
+
+server.on('request', (req, res) => {
+    console.log('request arrived.');
+    res.write("HostName: " + process.env.HOSTNAME + "\n");
+    res.end();
+});
+
+server.on('connection', (socket) => {
+    console.log("Connected");
+});
+
+~devteam_js$ vi Dockerfile
+FROM node:20-alpine3.17
+
+RUN apk add --no-cache tini curl
+
+WORKDIR /app
+
+COPY runapp.js .
+
+EXPOSE 6060
+
+ENTRYPOINT ["/sbin/tini", "--"]
+
+CMD ["node", "runapp.js"]
+
+~devteam_js$ DOCKER_BUILDKIT=1 docker build -t noderun:1.0 .
+~devteam_js$ docker images | grep noderun:1.0
+~devteam_js$ docker run -itd -p 6060:6060 --name=nodejs -h node-run noderun:1.0
+~devteam_js$ curl localhost:6060
+HostName: node-run
