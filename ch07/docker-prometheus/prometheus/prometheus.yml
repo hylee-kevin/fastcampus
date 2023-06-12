@@ -1,0 +1,44 @@
+# my global config
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+
+  external_labels:
+    monitor: 'my-project'
+
+rule_files:
+  # - 'alert.rules'
+  # - "first.rules"
+  # - "second.rules"
+
+# alert
+# alerting:
+#   alertmanagers:
+#   - scheme: http
+#     static_configs:
+#     - targets:
+#       - "alertmanager:9093"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node-exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['node-exporter:9100']
+      
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+            - targets: ['localhost:9559']
+            
+# global.scrape_interval: 기본적인 수집 간격.
+# global.external_labels.monitor: 모니터에 대한 별칭 설정.
+# scrape_config: 스크래핑 할 수집 도구의 정보를 정의.
+# scrape_config.scrape_interval: global.scrape_interval과 다르게 해당 수집 도구의 수집 간격을 설정.
+# scape_config.static_configs.targets: 스크래핑할 수집 도구의 주소를 입력. 여기에서는 cAdvisor 설정이므로, 컨테이너이름:포트 형식으로 입력.
