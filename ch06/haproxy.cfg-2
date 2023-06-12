@@ -1,0 +1,44 @@
+global
+  stats socket /var/run/api.sock user haproxy group haproxy mode 660 level admin expose-fd listeners
+  log stdout format raw local0 info
+
+defaults
+  mode http
+  timeout client 10s
+  timeout connect 5s
+  timeout server 10s
+  timeout http-request 10s
+  log global
+
+frontend stats
+  bind *:8404
+  stats enable
+  stats uri /
+  stats refresh 10s
+
+frontend myfrontend
+  bind :80
+  default_backend webservers
+
+  acl path-echo-web1 path_beg /echo-web1
+  acl path-echo-web2 path_beg /echo-web2
+  acl path-echo-web3 path_beg /echo-web3
+
+  use_backend echo-web1_backend if path-echo-web1
+  use_backend echo-web2_backend if path-echo-web2
+  use_backend echo-web3_backend if path-echo-web3
+
+backend webservers
+  balance roundrobin
+  server s1 echo-web1:8080 check
+  server s2 echo-web2:8080 check
+  server s3 echo-web3:8080 check
+
+backend echo-web1_backend
+  server s1 echo-web1:8080 check
+
+backend echo-web2_backend
+  server s2 echo-web2:8080 check
+
+backend echo-web3_backend
+  server s3 echo-web3:8080 check
