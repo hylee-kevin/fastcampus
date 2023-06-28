@@ -1,3 +1,0 @@
-FROM scratch
-COPY go-to-lightweight-image /
-CMD ["/go-to-lightweight-image"]
