@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+MAINTAINER "kevin-lee <hylee@dshub.cloud>"
+LABEL "purpose"="webserver practice"
+RUN apt-get update && apt-get install apache2 -y && \
+    apt-get clean -y && \
+    apt-get autoremove -y && \
+    rm -rfv /tmp/* /var/lib/apt/lists/* /var/tmp/*
+WORKDIR /var/www/html
+ADD index.html .
+EXPOSE 80
+CMD apachectl -D FOREGROUND
