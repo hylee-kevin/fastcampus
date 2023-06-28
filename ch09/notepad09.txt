@@ -1,1 +1,16 @@
 # ch09
+
+# Dive
+docker run --rm -it \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v  "$(pwd)":"$(pwd)" \
+-w "$(pwd)" \
+-v "$HOME/.dive.yaml":"$HOME/.dive.yaml" \
+wagoodman/dive:latest build -t dive-webapp:1.0 -f dockerfile-myweb1 .
+
+docker run --rm -it \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v  "$(pwd)":"$(pwd)" \
+-w "$(pwd)" \
+-v "$HOME/.dive.yaml":"$HOME/.dive.yaml" \
+wagoodman/dive:latest build -t dive-webapp:1.0 -f dockerfile-myweb2 .
