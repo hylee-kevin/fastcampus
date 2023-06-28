@@ -1,0 +1,8 @@
+FROM alpine
+MAINTAINER "kevin-lee <hylee@dshub.cloud>"
+LABEL "purpose"="webserver practice"
+RUN apk update && apk add apache2
+WORKDIR /var/www/html
+ADD index.html .
+EXPOSE 80
+CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
