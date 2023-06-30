@@ -1,0 +1,13 @@
+FROM ubuntu:14.04
+MAINTAINER "kevin-lee <hylee@dshub.cloud>"
+LABEL "purpose"="webserver practice"
+RUN apt-get update && apt-get -y install apache2 \
+                                         vim \
+                                         curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /etc/apt/sources.list.d/*
+
+ADD webapp.tar.gz /var/www/html
+WORKDIR /var/www/html
+EXPOSE 80
+CMD /usr/sbin/apache2ctl -D FOREGROUND
