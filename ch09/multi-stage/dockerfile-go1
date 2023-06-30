@@ -1,0 +1,5 @@
+FROM golang:1.15-alpine3.12
+WORKDIR /app/
+COPY gostart.go /app/
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/gostart
+ENTRYPOINT [ "/app/gostart" ]
