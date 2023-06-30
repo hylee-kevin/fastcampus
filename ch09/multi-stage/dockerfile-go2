@@ -1,6 +1,6 @@
 FROM golang:1.15-alpine3.12 AS gobuilder-stage
 MAINTAINER kevin,lee <hylee@dshub.cloud>
-LABEL "purpose"="Service Deployment using Multi-stage builds."
+LABEL "purpose"="Application Deployment using Multi-stage builds."
 WORKDIR /app/
 COPY gostart.go /app/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/gostart
