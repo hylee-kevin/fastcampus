@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto Mono', monospace;
+}
+
+body {
+  line-height: 1.6;
+  font-weight: 400;
+  background-color: white;
+  height: 100vh;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+.note {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+.note h2 {
+  font-size: 3.2rem;
+  text-align: center;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  color: #000000;
+}
+
+.note-input h3 {
+  color: #000000;
+}
+
+.note-wrapper {
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+}
+
+#title,
+#date,
+#nickname,
+#password,
+#content {
+  width: 100%;
+  border: 2px solid #F9587D;
+  font-size: 1.1rem;
+  padding: 0.55rem;
+  margin-bottom: 0.8rem;
+  border-radius: 2rem;
+  color: #000000;
+  background-color: #d8d7d7d8;
+}
+
+#content {
+  resize: none;
+}
+
+#nickname:focus,
+#password:focus,
+#password:focus {
+  outline: none;
+}
+
+.btn {
+  background: #000000;
+  border: 2px solid #F9587D;
+  color: #ffffff;
+  padding: 0.7rem 0;
+  width: 120px;
+  border-radius: 5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:hover {
+  background: #e2147b;
+  box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.4);
+}
+
+.note-list {
+  margin: 2rem 0;
+  background-color: #282828;
+  padding: 2rem;
+  border-radius: 5px;
+}
+
+.note-item {
+  position: relative;
+  background: #d8d7d7d8;
+  margin: 1rem;
+  padding: 1.5rem 1.5rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.note-item .modal {
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  transform: translateX(-50%);
+  background-color: #c2c3c7;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.note-item button {
+  color: #FFA69E;
+  background: #F9587D;
+  border: 2px solid #F9587D;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.note-item .modal > * {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.note-item h3 {
+  margin-bottom: 1rem;
+}
+.note-item p {
+  padding-bottom: 0.8rem;
+}
+.note-item .btn {
+  margin-top: 0.8rem;
+  background: #f4206ec5;
+  border: 2px solid #ce80a8cd;
+  /* border: 2px solid var(--bittersweet); */
+  color: #fff;
+}
+
+@media (min-width: 992px) {
+  .note-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/*** alert ***/
+.warning {
+  border: 3px solid rgba(255, 0, 0, 0.7) !important;
+}
+
+.warning::placeholder {
+  margin-left: 10px;
+  color: rgba(255, 0, 0, 0.7);
+}
+
+.err-msg {
+  color: rgba(255, 0, 0, 0.7);
+}

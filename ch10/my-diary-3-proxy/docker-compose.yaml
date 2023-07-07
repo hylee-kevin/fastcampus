@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+ mydiary-db:
+  image: mysql:5.7-debian
+  container_name: rolling-db
+  environment:
+   MYSQL_ROOT_PASSWORD: pass123
+   MYSQL_DATABASE: paperdb
+   MYSQL_ROOT_HOST: '%'
+   MYSQL_USER: user
+   MYSQL_PASSWORD: user
+  ports:
+   - '3306:3306'
+  networks:
+   - rolling-be-db
+  restart: always
+  command:
+   - --character-set-server=utf8
+   - --collation-server=utf8_general_ci
+
+ mydiary-back:
+  build:
+   context: ./my-diary-back
+   dockerfile: Dockerfile
+  deploy:
+   replicas: 3
+  restart: always
+  depends_on:
+   - mydiary-db
+  ports:
+   - '8081-8083:8080'
+  environment:
+   SPRING_DATASOURCE_URL: jdbc:mysql://rolling-db:3306/paperdb?serverTimezone=Asia/Seoul
+   SPRING_DATASOURCE_USERNAME: user
+   SPRING_DATASOURCE_PASSWORD: user
+  networks:
+   - rolling-be-db
+   - rolling-fe-be
+   
+ mydiary-front:
+  build:
+   context: ./my-diary-front
+   dockerfile: Dockerfile
+  deploy:
+   replicas: 3
+  restart: always
+  depends_on:
+   - mydiary-back
+  ports:
+   - '3000-3002:3000'
+  networks:
+   - rolling-fe-be
+
+ proxy-be:
+  image: nginx:1.21.5-alpine
+  container_name: rolling-server-lb
+  restart: always
+  depends_on:
+   - mydiary-back
+  ports:
+   - '8080:80'
+  volumes:
+   - ${PWD}/proxy/nginx-be.conf:/etc/nginx/nginx.conf
+  networks:
+   - rolling-be-db
+   - rolling-fe-be    
+
+ proxy-fe:
+  image: nginx:1.21.5-alpine
+  container_name: rolling-front-lb
+  restart: always
+  ports:
+   - '80:80'
+  volumes:
+   - ${PWD}/proxy/nginx-fe.conf:/etc/nginx/nginx.conf
+  networks:
+   - rolling-fe-be
+
+networks:
+ rolling-be-db:
+  driver: bridge
+  ipam:
+   driver: default
+   config:
+   - subnet: 172.20.0.0/24
+     ip_range: 172.20.0.0/24
+     gateway: 172.20.0.1
+ rolling-fe-be:
+  driver: bridge
+  ipam:
+   driver: default
+   config:
+   - subnet: 172.21.0.0/24
+     ip_range: 172.21.0.0/24
+     gateway: 172.21.0.1
+

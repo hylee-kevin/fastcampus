@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rolling-db:3306/paperdb?serverTimezone=Asia/Seoul
+    username: user
+    password: user
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+      database: mysql
+      database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+  level:
+    org:
+      hibernate:
+        type: trace
