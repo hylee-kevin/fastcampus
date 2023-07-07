@@ -13,7 +13,7 @@ services:
   ports:
    - '3306:3306'
   networks:
-   - rolling-be-db
+   - mydiary-net
   restart: always
   command:
    - --character-set-server=utf8
@@ -35,9 +35,8 @@ services:
    SPRING_DATASOURCE_USERNAME: user
    SPRING_DATASOURCE_PASSWORD: user
   networks:
-   - rolling-be-db
-   - rolling-fe-be
-   
+   - mydiary-net
+
  mydiary-front:
   build:
    context: ./my-diary-front
@@ -50,7 +49,7 @@ services:
   ports:
    - '3000-3002:3000'
   networks:
-   - rolling-fe-be
+   - mydiary-net
 
  proxy-be:
   image: nginx:1.21.5-alpine
@@ -63,8 +62,7 @@ services:
   volumes:
    - ${PWD}/proxy/nginx-be.conf:/etc/nginx/nginx.conf
   networks:
-   - rolling-be-db
-   - rolling-fe-be    
+   - mydiary-net
 
  proxy-fe:
   image: nginx:1.21.5-alpine
@@ -75,10 +73,10 @@ services:
   volumes:
    - ${PWD}/proxy/nginx-fe.conf:/etc/nginx/nginx.conf
   networks:
-   - rolling-fe-be
+   - mydiary-net
 
 networks:
- rolling-be-db:
+ mydiary-net:
   driver: bridge
   ipam:
    driver: default
@@ -86,12 +84,3 @@ networks:
    - subnet: 172.20.0.0/24
      ip_range: 172.20.0.0/24
      gateway: 172.20.0.1
- rolling-fe-be:
-  driver: bridge
-  ipam:
-   driver: default
-   config:
-   - subnet: 172.21.0.0/24
-     ip_range: 172.21.0.0/24
-     gateway: 172.21.0.1
-
