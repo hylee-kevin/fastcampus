@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  server_web:
+    image: httpd:2
+  server_db:
+    image: redis:6-alpine

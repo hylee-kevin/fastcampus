@@ -1,0 +1,14 @@
+version: '3'
+services:
+  redis:
+    image: redis:6-alpine
+    ports:
+      - 6379:6379
+    restart: always
+  flask:
+    build: .
+    ports:
+      - 9000:9000
+    depends_on:
+      - redis
+    restart: always
