@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fastcampus My class diary</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <img src="./fastcampus.png" style="position: absolute; top: 0; left: 0; width: 150px; height: 30px;" />
+    <div class="note">
+      <h2>fastcampus My class diary</h2>
+      <div class="note-input">
+        <h3>Add a new Class Diary</h3>
+
+        <form class="note-wrapper" method="post" action="/">
+          <div class="err-msg" id="nick-err"></div>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Title"
+            required="true"
+          />
+          <div class="err-msg" id="nick-err"></div>
+          <label for="date">Today:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            placeholder="date"
+            required="true"
+          />
+          <div class="err-msg" id="nick-err"></div>
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            placeholder="Nickname"
+            required="true"
+          />
+          <div class="err-msg" id="pass-err"></div>
+          <input
+            type="text"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required="true"
+          />
+          <div class="err-msg" id="cont-err"></div>
+          <textarea
+            id="content"
+            name="content"
+            placeholder="Write a diary 💕"
+            rows="5"
+            required="true"
+          ></textarea>
+          <button id="add-note-btn" class="btn" type="submit">
+            <span><i class="fas fa-plus"></i></span>
+            Add Note
+          </button>
+        </form>
+      </div>
+      <div class="note-list">
+        <% data.forEach(function(val) { %>
+          <div class="note-item"  id="<%=val.id%>">
+            <h2><%= val.title %></h2>
+            <h3><%= val.nickname %></h3>
+            <p><%= val.date %></p>
+            <p><%= val.content %></p>
+            <button type = "button" class = "btn delete-note-btn">
+            <span><i class = "fas fa-trash"></i></span>
+            Delete
+            </buttton>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="index.js"></script>
