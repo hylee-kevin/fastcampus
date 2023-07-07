@@ -1,0 +1,66 @@
+version: "3.9"
+services:
+  # 첫 번째 서비스 정의.
+  mydb:
+    # 도커 허브에서 제공하는 mysql:8.0 이미지 선택.
+    image: mysql:8.0-debian
+    # 서비스 컨테이너 이름 지정.
+    container_name: mysql_app
+    # 최상위 레벨에 정의 mydb_data 볼륨 지정.
+    volumes:
+      - mydb_data:/var/lib/mysql
+    # 수동 제어를 제외한 컨테이너 종료 시 자동 재시작.
+    restart: always
+    # 호스트 운영체제와 컨테이너의 3306 포트를 바인드한다.
+    # workbench 같은 클라이언트 도구와 연결하기 위해 필요하다.
+    ports:
+      - "3306:3306"
+    # 최상위 레벨에 정의한 backend-net을 기본 네트워크로 지정한다.
+    networks:
+      - backend-net
+    # 서비스가 사용할 환경 변수 지정한다.
+    environment:
+      MYSQL_ROOT_PASSWORD: password#
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppassword
+  # 두 번째 서비스를 작성한다.
+  myweb:
+  # myweb 서비스가 실행되기 전에 mydb 서비스를 먼저 실행하는 의존성을 설정한다.
+    depends_on:
+      - mydb
+    # wordpress:5.7 이미지 지정한다.
+    image: wordpress
+    # 서비스 컨테이너 이름을 지정한다.
+    container_name: wordpress_app
+    # 호스트 운영체제의 8888 포트와 컨테이너의 80 포트를 바인드한다.
+    ports:
+      - "8888:80"
+    # backend-net으로 mydb 서비스와 동일 네트워크로 지정하고, 
+    # 외부 연결을 위한 네트워크를 위해 fronetend-net 지정을 가정한다.
+    # docker network connect ~ 명령으로 두 번째 네트워크를 추가하는 것과 같다.
+    networks:
+      - backend-net
+      - frontend-net
+    # 컨테이너 데이터 지속성을 위해 도커 볼륨기법과 바인드 마운트 기법을 사용한다.
+    volumes:
+      - myweb_data:/var/www/html
+      - ${PWD}/myweb-log:/var/log \
+    # 수동 제어를 제외한 컨테이너 종료 시 자동 재시작한다.
+    restart: always
+    # 서비스가 사용할 환경 변수를 지정한다.
+    environment:
+      WORDPRESS_DB_HOST: mydb:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppassword
+      WORDPRESS_DB_NAME: wpdb 
+
+# 도커 컴포즈 애플리케이션이 사용할 네트워크 생성. docker network create와 동일하다.
+networks:
+  frontend-net: {}
+  backend-net: {}
+
+# 도커 컴포즈 애플리케이션이 사용할 볼륨 생성. docker volume create와 동일하다.
+volumes:
+  mydb_data: {}
+  myweb_data: {}

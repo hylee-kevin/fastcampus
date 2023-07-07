@@ -1,0 +1,51 @@
+version: '3.3' 
+ 
+services: 
+ mydiary-db: 
+  image: mysql:5.7-debian 
+  container_name: rolling-db 
+  environment: 
+   MYSQL_ROOT_PASSWORD: pass123 
+   MYSQL_DATABASE: paperdb 
+   MYSQL_ROOT_HOST: '%'
+   MYSQL_USER: user 
+   MYSQL_PASSWORD: user 
+  ports: 
+   - '13306:3306' 
+  networks: 
+   - rolling-be-db 
+  restart: always 
+  command: 
+   - --character-set-server=utf8 
+   - --collation-server=utf8_general_ci 
+ 
+ mydiary-back: 
+  image: mydiary-back:1.0 
+  container_name: rolling-server 
+  restart: always 
+  depends_on: 
+   - mydiary-db 
+  ports: 
+   - '8080:8080' 
+  environment: 
+   SPRING_DATASOURCE_URL: jdbc:mysql://rolling-db:3306/paperdb?serverTimezone=Asia/Seoul 
+   SPRING_DATASOURCE_USERNAME: user 
+   SPRING_DATASOURCE_PASSWORD: user 
+  networks: 
+   - rolling-be-db 
+   - rolling-fe-be 
+   
+ mydiary-front: 
+  image: mydiary-front:1.0 
+  container_name: rolling-front 
+  restart: always 
+  depends_on: 
+   - mydiary-back 
+  ports: 
+   - '3000:3000' 
+  networks: 
+   - rolling-fe-be 
+ 
+networks: 
+ rolling-be-db: {} 
+ rolling-fe-be: {}
