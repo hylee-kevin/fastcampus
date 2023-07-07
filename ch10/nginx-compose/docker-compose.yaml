@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  pyfla_app1:
+    build: 
+      context: ./pyfla_app1
+      dockerfile: Dockerfile.app1
+    ports:
+    - "5001:5000"
+  pyfla_app2:
+    build: 
+      context: ./pyfla_app2
+      dockerfile: Dockerfile.app2
+    ports:
+    - "5002:5000"
+  pyfla_app3:
+    build: 
+      context: ./pyfla_app3
+      dockerfile: Dockerfile.app3
+    ports:
+    - "5003:5000"
+  nginx:
+    build: 
+      context: ./nginx_alb
+      dockerfile: Dockerfile.alb
+    ports:
+    - "8080:80"
+    depends_on:
+      - pyfla_app1
+      - pyfla_app2
+      - pyfla_app3
