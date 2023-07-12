@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  webAPI:
+    image: nginx:1.25.1-alpine
+    ports:
+        - '8080:80'
+    deploy:
+      replicas: 3
