@@ -1,0 +1,33 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.25.0-alpine
+    deploy:
+      replicas: 4                                       # 복제 * 4
+      placement:
+        constraints: [node.role != manager]             # manager node가 아닌 node에 배치
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    environment:
+      SERVICE_PORTS: 80
+    networks:
+      - haproxy-web
+  proxy:
+    image: dbgurum/haproxy:1.0                                  # 사전에 구성해 놓은 haproxy.cfg 포함
+    depends_on:
+      - nginx                                                   # nginx service와 의존성
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+    networks:
+      - haproxy-web
+    deploy:
+      mode: global                                      # 모든 노드에 task 배치
+      placement:
+        constraints: [node.role == manager]             # manager node에만..
+
+networks:
+  haproxy-web:
+    external: true
