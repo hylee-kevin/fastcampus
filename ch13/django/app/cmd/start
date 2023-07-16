@@ -1,0 +1,4 @@
+#!/bin/bash
+python /app/larva/manage.py makemigrations
+python /app/larva/manage.py migrate --noinput
+/app/bin/gunicorn_start

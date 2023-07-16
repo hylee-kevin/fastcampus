@@ -1,0 +1,41 @@
+h1 {
+    color: rgb(0, 150, 0);
+}
+
+.container {
+    max-width: 375px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+#disposal {
+    width: 100%;
+}
+
+#catalog {
+    margin-top: 3px;
+    width: 100%;
+}
+
+#logo_main {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.interval {
+    width: 20%;
+}
+
+.logo_button {
+    width: 21%;
+}

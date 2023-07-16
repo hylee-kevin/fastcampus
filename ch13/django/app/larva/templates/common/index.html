@@ -1,0 +1,22 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'common/css/index.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+    <img id="logo_main" src="{% static 'common/img/logo_main_fast.png' %}" alt="app main logo"></a>
+    <div class="menu">
+        <a class="logo_button" href="{% url 'index' %}">
+            <img id="disposal" src="{% static 'common/img/logo_reservation.png' %}" alt="배출 예약">
+        </a>
+        <div class="interval">
+        </div>
+        <a class="logo_button" href="{% url 'index' %}">
+            <img id="catalog" src="{% static 'common/img/logo_list.png' %}" alt="예약 목록">
+        </a>
+    </div>
+</div>
+{% endblock content %}
